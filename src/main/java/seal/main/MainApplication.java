@@ -24,10 +24,10 @@ public class MainApplication {
 		Applicant toReturn = new Applicant();
 		toReturn.setFname(firstName);
 		toReturn.setLname(lastName);
+		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-    	Date parsed = sdf.parse(DOB);
-    	java.sql.Date sql = new java.sql.Date(parsed.getTime());
-		toReturn.setDOB(sql);
+    	cal.setTime(sdf.parse(DOB));
+		toReturn.setDOB(cal);
 		toReturn.setHashedID(hash);
 		return toReturn;
 	}

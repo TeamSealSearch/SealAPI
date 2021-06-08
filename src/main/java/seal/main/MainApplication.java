@@ -14,8 +14,20 @@ import java.sql.SQLException;
 public class MainApplication {
 
 	@GetMapping("/applicant")
-	public Applicant createApplicant(@RequestParam(value="name", defaultValue = "test") String name) throws SQLException, ClassNotFoundException {
-		return new Applicant();
+	public Applicant createApplicant  (
+			@RequestParam (value="fName", defaultValue = "first") String firstName,
+			@RequestParam (value="lName", defaultValue = "last") String lastName,
+			@RequestParam (value="DOB", defaultValue = "69/69/6969") String DOB,
+			@RequestParam (value="hashedID", defaultValue = "hashedID40210") String hash
+		) throws SQLException, ClassNotFoundException {
+
+		Applicant toReturn = new Applicant();
+		toReturn.setFname(firstName);
+		toReturn.setLname(lastName);
+//		toReturn.setDOB(DOB); too lazy, need to turn string to calendar
+		toReturn.setHashedID(hash);
+
+		return toReturn;
 	}
 
 	public static void main(String[] args) {

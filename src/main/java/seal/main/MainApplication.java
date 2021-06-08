@@ -44,7 +44,7 @@ public class MainApplication {
 		
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-    	cal.setTime(sdf.parse(DOB));
+    	cal.setTime(sdf.parse(dob));
 		Applicant toReturn = new Applicant(hashedID, username, fname, lname, cal);
 		return toReturn;
 	}

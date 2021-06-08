@@ -22,7 +22,7 @@ public class MainApplication {
 			@RequestParam (value="lName", defaultValue = "last") String lastName,
 			@RequestParam (value="DOB", defaultValue = "69/69/6969") String DOB,
 			@RequestParam (value="hashedID", defaultValue = "hashedID40210") String hash
-		) throws SQLException, ClassNotFoundException {
+		) throws SQLException, ClassNotFoundException, IOException {
 
 		Applicant toReturn = new Applicant();
 		toReturn.setFname(firstName);

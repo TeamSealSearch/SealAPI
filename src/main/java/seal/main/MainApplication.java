@@ -38,7 +38,7 @@ public class MainApplication {
 
 	@GetMapping("/createApplicant")
 	public Applicant createApplicant  (
-			@RequestParam (value="hashedID", defaultValue = "hashedID40210") String hashedID,
+			@RequestParam (value="hashedid", defaultValue = "hashedID40210") String hashedid,
 			@RequestParam (value="username", defaultValue = "testUserName") String username,
 			@RequestParam (value="fname", defaultValue = "first") String fname,
 			@RequestParam (value="lname", defaultValue = "last") String lname,
@@ -48,7 +48,7 @@ public class MainApplication {
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     	cal.setTime(sdf.parse(dob));
-		Applicant toReturn = new Applicant(hashedID, username, fname, lname, cal);
+		Applicant toReturn = new Applicant(hashedid, username, fname, lname, cal);
 		toReturn.createApplicant();
 		return toReturn;
 	}

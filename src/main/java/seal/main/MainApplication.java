@@ -17,11 +17,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -54,7 +50,40 @@ public class MainApplication {
 		return toReturn;
 	}
 
-	@GetMapping(value="/fetchApplicants", produces = {"application/json"})
+	@GetMapping("/login")
+	public Applicant foundApplicant(@RequestParam (value="username", defaultValue = "") String usernameParam)
+			throws ClassNotFoundException, SQLException, IllegalAccessException, InstantiationException, ParseException {
+		Applicant validApplicant;
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+		String QUERY = "SELECT * FROM applicant WHERE a_username = '%s'";
+		Class.forName("com.mysql.jdbc.Driver");
+		String azureURL = "jdbc:mysql://thesealsearchserver.mysql.database.azure.com:3306/sealdb?useSSL=true&requireSSL=false";
+		Connection conn = DriverManager.getConnection(azureURL, "KingSeal@thesealsearchserver", "Password1");
+
+		Statement queryStatement = conn.createStatement();
+		QUERY = String.format(QUERY, usernameParam);
+
+		ResultSet rs = queryStatement.executeQuery(QUERY);
+		rs.next();
+
+		cal.setTime(sdf.parse(rs.getString("a_dob")));
+		validApplicant = new Applicant(
+				rs.getString("a_hashedID"),
+				rs.getString("a_username"),
+				rs.getString("a_fname"),
+				rs.getString("a_lname"),
+											cal,
+				rs.getString("a_city"),
+				rs.getString("a_state"),
+				rs.getString("a_phoneNumber"),
+				rs.getString("a_email")
+		);
+		return validApplicant;
+	}
+
+	@GetMapping(value="/fetchJobs", produces = {"application/json"})
 	public String fetchApplicants () throws SQLException, ClassNotFoundException, JSONException {
 		JSONArray jobs = new Applicant().browseJobs();
 

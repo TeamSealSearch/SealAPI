@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import test394.Applicant;
+
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -46,6 +48,7 @@ public class MainApplication {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     	cal.setTime(sdf.parse(dob));
 		Applicant toReturn = new Applicant(hashedID, username, fname, lname, cal);
+		toReturn.createApplicant();
 		return toReturn;
 	}
 

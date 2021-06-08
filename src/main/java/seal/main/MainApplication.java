@@ -1,5 +1,6 @@
 package seal.main;
 
+import org.json.JSONException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,12 +24,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -47,7 +44,7 @@ public class MainApplication {
 			@RequestParam (value="a_state", defaultValue = "1969-05-04") String a_state,
 			@RequestParam (value="a_phonenumber", defaultValue = "1969-05-04") String a_phonenumber,
 			@RequestParam (value="a_email", defaultValue = "1969-05-04") String a_email
-		) throws SQLException, ClassNotFoundException, IOException, ParseException {
+	) throws SQLException, ClassNotFoundException, IOException, ParseException {
 		
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -55,6 +52,13 @@ public class MainApplication {
 		Applicant toReturn = new Applicant(hashedid, username, fname, lname, cal, a_city, a_state, a_phonenumber, a_email);
 		toReturn.createApplicant();
 		return toReturn;
+	}
+
+	@GetMapping(value="/fetchApplicants", produces = {"application/json"})
+	public String fetchApplicants () throws SQLException, ClassNotFoundException, JSONException {
+		JSONArray jobs = new Applicant().browseJobs();
+
+		return jobs.toString();
 	}
 
 	public static void main(String[] args) {

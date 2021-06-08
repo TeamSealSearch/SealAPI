@@ -24,7 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Applicant {
-	private ArrayList<String> dbInfo;
+	public ArrayList<String> dbInfo;
 	private ArrayList<String> profileRankings;
 	private Map<String, Employer> followedEmps;
 	private String hashedID;

@@ -80,10 +80,17 @@ public class MainApplication {
 				rs.getString("a_phoneNumber"),
 				rs.getString("a_email")
 		);
+
 		return validApplicant;
 	}
 
-	@GetMapping(value="/fetchJobs", produces = {"application/json"})
+	@GetMapping(value="/employer", produces = {"application/json"})
+	public String employer(@RequestParam (value="hashedID", defaultValue = "hashedID40210") String hashedID)
+	throws SQLException, ClassNotFoundException, JSONException {
+		return new Applicant().viewEmployer(hashedID).toString();
+	}
+
+	@GetMapping(value="/browseJobs", produces = {"application/json"})
 	public String fetchApplicants () throws SQLException, ClassNotFoundException, JSONException {
 		JSONArray jobs = new Applicant().browseJobs();
 

@@ -32,6 +32,10 @@ public class Applicant {
 	private String fname;
 	private String lname;
 	private java.sql.Date dob;
+	private String city;
+	private String state;
+	private String phoneNumber;
+	private String email;
 
 	public Applicant() throws ClassNotFoundException, SQLException {
 		this.hashedID = "123456";
@@ -64,7 +68,7 @@ public class Applicant {
 		this.followedEmps = new HashMap<>();
 	}
 
-	public Applicant(String hid, String un, String first, String last, Calendar dobCal)
+	public Applicant(String hid, String un, String first, String last, Calendar dobCal, String a_city, String a_state, String a_number, String a_email)
 			throws ClassNotFoundException, SQLException {
 		this.hashedID = hid;
 		this.username = un;
@@ -72,6 +76,10 @@ public class Applicant {
 		this.lname = last;
 		Calendar cal = dobCal;
 		this.dob = new java.sql.Date(cal.getTimeInMillis());
+		this.city = a_city;
+		this.state = a_state;
+		this.phoneNumber = a_number;
+		this.email = a_email;
 		this.dbInfo = new ArrayList<String>();
 		this.dbInfo.add("com.mysql.cj.jdbc.Driver");
 		this.dbInfo.add(
@@ -86,12 +94,16 @@ public class Applicant {
 		Class.forName(dbInfo.get(0));
 		Connection con = DriverManager.getConnection(dbInfo.get(1), dbInfo.get(2), dbInfo.get(3));
 		PreparedStatement ps = con.prepareStatement(
-				"INSERT INTO APPLICANT (a_hashedid, a_username, a_fname, a_lname, a_dob) VALUES (?, ?, ?, ?, ?)");
+				"INSERT INTO APPLICANT (a_hashedid, a_username, a_fname, a_lname, a_dob, a_city, a_state, a_phoneNumber, a_email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		ps.setString(1, this.hashedID);
 		ps.setString(2, this.username);
 		ps.setString(3, this.fname);
 		ps.setString(4, this.lname);
 		ps.setDate(5, this.dob);
+		ps.setString(6, this.city);
+		ps.setString(7, this.state);
+		ps.setString(8, this.phoneNumber);
+		ps.setString(9, this.email);
 		int count = ps.executeUpdate();
 		System.out.println("Rows Affected By createApplicant() Query = " + count);
 		con.close();

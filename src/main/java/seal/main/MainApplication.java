@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -82,6 +83,13 @@ public class MainApplication {
 		);
 
 		return validApplicant;
+	}
+
+	@PostMapping(value="/follow", produces = {"application/json"})
+	// need to get a hashed employer ID from front end
+	public String follow(@RequestParam (value="employerID", defaultValue = "hashed") String employerID) {
+		//todo -> how are employers saved?
+		return "";
 	}
 
 	@GetMapping(value="/viewCompany", produces = {"application/json"})

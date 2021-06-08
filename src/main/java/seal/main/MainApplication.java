@@ -36,7 +36,7 @@ import org.json.JSONObject;
 @RestController
 public class MainApplication {
 
-	@GetMapping("/applicant")
+	@GetMapping("/createApplicant")
 	public Applicant createApplicant  (
 			@RequestParam (value="hashedID", defaultValue = "hashedID40210") String hashedID,
 			@RequestParam (value="username", defaultValue = "testUserName") String username,

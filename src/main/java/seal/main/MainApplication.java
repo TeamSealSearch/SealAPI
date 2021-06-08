@@ -84,7 +84,7 @@ public class MainApplication {
 		return validApplicant;
 	}
 
-	@GetMapping(value="/employer", produces = {"application/json"})
+	@GetMapping(value="/viewCompany", produces = {"application/json"})
 	public String employer(@RequestParam (value="hashedID", defaultValue = "hashedID40210") String hashedID)
 	throws SQLException, ClassNotFoundException, JSONException {
 		return new Applicant().viewEmployer(hashedID).toString();

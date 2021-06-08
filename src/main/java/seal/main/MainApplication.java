@@ -24,9 +24,11 @@ public class MainApplication {
 		Applicant toReturn = new Applicant();
 		toReturn.setFname(firstName);
 		toReturn.setLname(lastName);
-//		toReturn.setDOB(DOB); too lazy, need to turn string to calendar
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    	Date parsed = sdf.parse(DOB);
+    	java.sql.Date sql = new java.sql.Date(parsed.getTime());
+		toReturn.setDOB(sql);
 		toReturn.setHashedID(hash);
-
 		return toReturn;
 	}
 

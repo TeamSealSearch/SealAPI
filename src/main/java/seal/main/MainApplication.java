@@ -35,20 +35,17 @@ public class MainApplication {
 
 	@GetMapping("/applicant")
 	public Applicant createApplicant  (
+			@RequestParam (value="hashedID", defaultValue = "hashedID40210") String hash,
+			@RequestParam (value="username", defaultValue = "testUserName") String un,
 			@RequestParam (value="fName", defaultValue = "first") String firstName,
 			@RequestParam (value="lName", defaultValue = "last") String lastName,
-			@RequestParam (value="DOB", defaultValue = "69-69-1969") String DOB,
-			@RequestParam (value="hashedID", defaultValue = "hashedID40210") String hash
+			@RequestParam (value="DOB", defaultValue = "1969-05-04") String DOB
 		) throws SQLException, ClassNotFoundException, IOException, ParseException {
-
-		Applicant toReturn = new Applicant();
-		toReturn.setFname(firstName);
-		toReturn.setLname(lastName);
+		
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     	cal.setTime(sdf.parse(DOB));
-		toReturn.setDOB(cal);
-		toReturn.setHashedID(hash);
+		Applicant toReturn = new Applicant(hash, un, firstName, lastName, cal);
 		return toReturn;
 	}
 

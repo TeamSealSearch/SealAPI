@@ -183,6 +183,26 @@ public class MainApplication {
                 .body(resource);
     }
 
+	@GetMapping("/uploadResume")
+	public Applicant uploadResume  (
+			@RequestParam (value="hashedid", defaultValue = "hashedID40210") String hashedid,
+			@RequestParam (value="filepath", defaultValue = "hashedID40210") String filepath
+	) throws SQLException, ClassNotFoundException, IOException, ParseException {
+		
+		Applicant app = new Applicant(hashedid);
+		app.uploadResume(filepath);
+	}
+
+	@GetMapping("/uploadProfilePicture")
+	public Applicant uploadProfilePicture  (
+			@RequestParam (value="hashedid", defaultValue = "hashedID40210") String hashedid,
+			@RequestParam (value="filepath", defaultValue = "hashedID40210") String filepath
+	) throws SQLException, ClassNotFoundException, IOException, ParseException {
+		
+		Applicant app = new Applicant(hashedid);
+		app.uploadProfPic(filepath);
+	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(MainApplication.class, args);
 	}

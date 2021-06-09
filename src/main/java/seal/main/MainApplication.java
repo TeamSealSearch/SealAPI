@@ -205,6 +205,19 @@ public class MainApplication {
 		return app;
 	}
 
+	@GetMapping("/filters")
+	public String getFilters () throws JSONException {
+		JSONObject filter = new JSONObject();
+		filter.put("f1", "Engineering");
+		filter.put("f2", "Liberal Arts");
+		filter.put("f3", "History");
+		filter.put("f4", "Humanities");
+		filter.put("f5", "Medical");
+		filter.put("f6", "Business");
+
+		return filter.toString();
+	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(MainApplication.class, args);
 	}

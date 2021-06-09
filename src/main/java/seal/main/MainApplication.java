@@ -191,6 +191,7 @@ public class MainApplication {
 		
 		Applicant app = new Applicant(hashedid);
 		app.uploadResume(filepath);
+		return app;
 	}
 
 	@GetMapping("/uploadProfilePicture")
@@ -201,6 +202,7 @@ public class MainApplication {
 		
 		Applicant app = new Applicant(hashedid);
 		app.uploadProfPic(filepath);
+		return app;
 	}
 
 	public static void main(String[] args) {

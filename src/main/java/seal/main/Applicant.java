@@ -130,6 +130,27 @@ public class Applicant {
 		con.close();
 		ps.close();
 	}
+	
+	public void uploadProfPic(String filepath)
+	      throws ClassNotFoundException, IOException, SQLException {
+	    Class.forName(dbInfo.get(0));
+	    String fp = filepath;
+	    File pdfFile = new File(fp);
+	    byte[] pdfData = new byte[(int) pdfFile.length()];
+	    DataInputStream dis = new DataInputStream(new FileInputStream(pdfFile));
+	    dis.readFully(pdfData);
+	    dis.close();
+	    Connection con =
+	        DriverManager.getConnection(this.dbInfo.get(1), this.dbInfo.get(2), this.dbInfo.get(3));
+	    PreparedStatement ps =
+	        con.prepareStatement("UPDATE APPLICANT SET a_profilePicture = ? WHERE a_hashedID = ?;");
+	    ps.setBytes(1, pdfData);
+	    ps.setString(2, this.hashedID);
+	    int count = ps.executeUpdate();
+	    System.out.println("Rows Affected By uploadResume() Query = " + count);
+	    con.close();
+	    ps.close();
+	  }
 
 	public void retrieveResume() throws ClassNotFoundException, IOException, SQLException {
 		Class.forName(dbInfo.get(0));

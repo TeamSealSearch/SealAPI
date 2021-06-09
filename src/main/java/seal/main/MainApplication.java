@@ -8,6 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+
+
 
 import seal.main.Applicant;
 import seal.main.Employer;
@@ -104,6 +110,78 @@ public class MainApplication {
 
 		return jobs.toString();
 	}
+
+	@GetMapping(value = "/viewResumePDF")
+    public ResponseEntity<InputStreamResource> getResume (
+		@RequestParam (value="hashedid", defaultValue = "hashedID40210") String hashedid
+	)throws SQLException, ClassNotFoundException, IOException, ParseException {
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+    Connection con =
+        DriverManager.getConnection("jdbc:mysql://thesealsearchserver.mysql.database.azure.com:3306/sealdb?useSSL=true&requireSSL=false", "KingSeal@thesealsearchserver", "Password1");
+    PreparedStatement ps =
+        con.prepareStatement("SELECT a_resumePDF FROM APPLICANT WHERE a_hashedID = ?;");
+    ps.setString(1, hashedid);
+    ResultSet rs = ps.executeQuery();
+    Random random = new Random();
+    String ext = ".pdf";
+    String name = String.format("%s%s", System.currentTimeMillis(), random.nextInt(100000) + ext);
+    File file = new File(name);
+    FileOutputStream output = new FileOutputStream(file);
+    while (rs.next()) {
+      InputStream input = rs.getBlob("a_resumePDF").getBinaryStream();
+      byte[] buffer = new byte[(int) rs.getBlob("a_resumePDF").length()];
+      while (input.read(buffer) > 0) {
+        output.write(buffer);
+      }
+    }
+        HttpHeaders headers = new HttpHeaders();      
+        headers.add("content-disposition", "inline;filename=" +file.getAbsolutePath());
+        
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(file.length())
+                .contentType(MediaType.parseMediaType("application/pdf"))
+                .body(resource);
+    }
+
+	@GetMapping(value = "/viewProfilePic")
+    public ResponseEntity<InputStreamResource> ProfilePic (
+		@RequestParam (value="hashedid", defaultValue = "hashedID40210") String hashedid
+	)throws SQLException, ClassNotFoundException, IOException, ParseException {
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+    Connection con =
+        DriverManager.getConnection("jdbc:mysql://thesealsearchserver.mysql.database.azure.com:3306/sealdb?useSSL=true&requireSSL=false", "KingSeal@thesealsearchserver", "Password1");
+    PreparedStatement ps =
+        con.prepareStatement("SELECT a_profilePicture FROM APPLICANT WHERE a_hashedID = ?;");
+    ps.setString(1, hashedid);
+    ResultSet rs = ps.executeQuery();
+    Random random = new Random();
+    String ext = ".pdf";
+    String name = String.format("%s%s", System.currentTimeMillis(), random.nextInt(100000) + ext);
+    File file = new File(name);
+    FileOutputStream output = new FileOutputStream(file);
+    while (rs.next()) {
+      InputStream input = rs.getBlob("a_profilePicture").getBinaryStream();
+      byte[] buffer = new byte[(int) rs.getBlob("a_profilePicture").length()];
+      while (input.read(buffer) > 0) {
+        output.write(buffer);
+      }
+    }
+        HttpHeaders headers = new HttpHeaders();      
+        headers.add("content-disposition", "inline;filename=" +file.getAbsolutePath());
+        
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(file.length())
+                .contentType(MediaType.parseMediaType("application/pdf"))
+                .body(resource);
+    }
 
 	public static void main(String[] args) {
 		SpringApplication.run(MainApplication.class, args);
